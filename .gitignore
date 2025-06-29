@@ -1,0 +1,94 @@
+## Project specific
+
+_INFO/*
+
+.env
+public/.env
+
+public/uploads/*
+!public/uploads/.readme
+
+env.php
+config/env.php
+/config/env/env.php
+
+!tmp/twig/
+tmp/twig/*
+!tmp/twig/empty
+
+!tmp/routes/
+tmp/routes/*
+!tmp/routes/empty
+
+!logs/
+logs/*
+
+
+## Composer
+composer.phar
+composer.lock
+/vendor/
+vendor/
+
+
+## Notepad++
+
+# Notepad++ backups
+*.bak
+
+## VisualStudioCode
+.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+
+## keys
+*.pem
+*.key
+*.ppk
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+
+
+## PhpUnit
+.phpunit.result.cache
+
+
+## MacOS
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
