@@ -13,6 +13,7 @@ of Daniel Opitz ([Odan](https://odan.github.io/about.html)) and [Samuel Gfeller]
 
 * [Slim (PHP micro framework).](https://www.slimframework.com/)
 * [UIkit (Front-end framework).](https://getuikit.com/)
+* [Twig (Template engine for PHP).](https://twig.symfony.com/)
 * [MySQL.](https://www.mysql.com/)
 * [jQuery.](https://jquery.com/)
 
