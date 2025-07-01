@@ -1,0 +1,26 @@
+{% extends "user/@layout.twig" %}
+{% block content %}
+<div class="uk-container uk-container-xlarge" 
+    data-src="../public/assets/header_img_dark_text.jpg" 
+    uk-img>
+</div>
+<!-- Items block-->
+<div class="uk-container uk-container-xlarge uk-margin-top">      
+    {% if items %}
+    <ul id="items" class="uk-thumbnav uk-child-width-1-2@m uk-flex-center" 
+        uk-lightbox="animation: fade">
+        {% for item in items %}
+        <li class='uk-card uk-card-default uk-card-body uk-active uk-text-center uk-margin-small-left uk-margin-small-right uk-margin-bottom uk-padding uk-background-default'>
+            <span name='item_id' class="uk-invisible">{{ item.id }}</span>
+            <a href='{{ item.image }}'><img src='{{ item.image }}' alt='item_img'></a><br>
+            <span name='item_name' class="uk-text-bolder" style="font-size: 16px">{{ item.name }}</span><br>
+            <span name='item_description'>{{ item.description }}</span><br>  
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p class='uk-text-lead uk-text-center uk-margin-xlarge-top uk-margin-xlarge-bottom'>No fotos yet :(</p>
+    {% endif %}
+</div>
+<!-- /Items block-->
+{% endblock content %}
