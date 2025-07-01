@@ -1,0 +1,118 @@
+{% extends "admin/@admin_layout.twig" %}
+{% block content %}
+{% include "admin/admin_menu.twig" %}
+<!-- Items block-->
+<div class="uk-container uk-container-xlarge uk-margin-top">      
+    {% if items %}
+    <ul id="items" class="uk-thumbnav uk-child-width-1-2@m uk-flex-center" 
+        uk-lightbox="animation: fade">
+        {% for item in items %}
+        <li class='uk-card uk-card-default uk-card-body uk-active uk-text-center uk-margin-small-left uk-margin-small-right uk-margin-bottom uk-padding uk-background-default'>
+            <span name='item_id' class="uk-invisible">{{ item.id }}</span>
+            <a name='item_delete_btn' href="#modal-delete" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-toggle></a>
+            <a name='item_update_btn' href="#modal-update" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>
+            <a href='{{ item.image }}'><img src='{{ item.image }}' alt='item_img'></a><br>
+            <span name='item_name' class="uk-text-bolder" style="font-size: 16px">{{ item.name }}</span><br>
+            <span name='item_description'>{{ item.description }}</span><br>  
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p class='uk-text-lead uk-text-center uk-margin-xlarge-top uk-margin-xlarge-bottom'>No fotos yet :(</p>
+    {% endif %}
+</div>
+<!-- /Items block-->
+<!-- Modal Delete -->
+<div id="modal-delete" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title uk-text-danger">Deletion</h2>
+        <p style="font-size: 18px">Are you sure you'd like to delete&nbsp;
+            <span id="name_delete" class="uk-text-bolder"></span> ? 
+            <span id="id_delete" name="id_delete" style='display:none'></span>
+        </p>
+        <p class="uk-text-right">
+            <button id='modal_delete_btn_delete' 
+                class="uk-button uk-button-danger" 
+                type="button">Delete</button>
+            <button id='modal_delete_btn_cancel' 
+                class="uk-button uk-button-default uk-modal-close" 
+                type="button">Cancel</button> 
+        </p>
+        <p id='modal_delete_spinner' style='display:none' uk-spinner></p>
+        <p id='modal_delete_response' class="uk-margin-top"></p>
+    </div>
+</div>
+<!-- /Modal Delete -->
+<!-- Modal Update -->
+<div id="modal-update" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title uk-text-warning">Updating</h2>
+        <p><span id="id_update" style='display:none'></span></p>
+        <form id="form_update" method='post'>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="name_update">Name</label>
+                <input id='name_update' name='name_update' class="uk-input" 
+                    type="text" placeholder="Name...">
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="description_update">Description</label>
+                <textarea id='description_update' name='description_update' 
+                    class="uk-textarea" rows="3" style='resize:none;' 
+                        placeholder="Description..."></textarea>
+            </div>
+        </form>
+        <p class="uk-text-right">
+            <button id='modal_update_btn_close' 
+                class="uk-button uk-button-default uk-modal-close" 
+                type="button">Close</button>
+            <button id='modal_update_btn_update' 
+                class="uk-button uk-button-primary" 
+                type="button">Update</button>
+        </p>
+        <p id='modal_update_spinner' style='display:none' uk-spinner></p>
+        <p id='modal_update_response' class="uk-margin-top"></p>
+    </div>
+</div>
+<!-- /Modal Update -->
+<!-- Modal Add Floating Action Button-->
+<a href="#modal-add" class="uk-icon-button uk-button-primary" 
+style="position: fixed; bottom: 16px; right: 16px; min-height: 48px; min-width: 48px; box-shadow: 1px 8px 12px -7px #276873; border-radius: 48px;" 
+uk-icon="icon: plus; ratio: 1.5" uk-toggle>
+</a>
+<!-- /Modal Add Floating Action Button-->
+<!-- Modal Add -->
+<div id="modal-add" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title uk-text-primary">Adding</h2>
+        <form id="form_add" method='post' enctype='multipart/form-data'>
+            <div class="uk-margin" uk-margin>
+                <label class="uk-form-label" for="file_add">Image file (only JPEG/JPG, PNG).</label><br>
+                <div uk-form-custom="target: true">
+                    <input id="file_add" name="file_add" type="file">
+                    <input class="uk-input uk-form-width-medium" 
+                        type="text" placeholder="Add file..." disabled>
+                </div>
+            </div>
+            <div class="uk-margin">
+                <input id="name_add" name="name_add" class="uk-input" 
+                    type="text" placeholder="Name...">
+            </div>
+            <div class="uk-margin">
+                <textarea id="description_add" name="description_add" 
+                    class="uk-textarea" rows="3" 
+                    style='resize:none;' placeholder="Description...">
+                </textarea>
+            </div>
+        </form>
+        <p class="uk-text-right">
+            <button id='modal_add_btn_close' class="uk-button uk-button-default uk-modal-close" 
+                type="button">Close</button>
+            <button id='modal_add_btn_add' class="uk-button uk-button-primary" 
+                type="button">Add</button>
+        </p>
+        <p id='modal_add_spinner' style='display:none' uk-spinner></p>
+        <p id='modal_add_response' class="uk-margin-top"></p>
+    </div>
+</div>
+<!-- /Modal Add -->
+{% endblock content %}
