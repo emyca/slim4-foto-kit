@@ -1,0 +1,6 @@
+{
+    "_readme": "These are admin data",
+    "admin_login": "admin@mail.com",
+    "admin_pass": "$2y$10$1RhSD3J7ZdGIZ83RiebrpupA.QCgpuN4N0sZT3jqRfe.ylQkeAPqu",
+    "admin_jwt_secret_key": "50350b5b8df5a04f844f1930652ee5fa9dccd0299690c69860bd52d557135a6e"
+}
