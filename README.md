@@ -2,7 +2,7 @@
 
 UNDER DEVELOPMENT
 
-This is only demo app. It is considered as a personal application. The app demonstrates data manipulation, CRUD operations, file uploading to external server.
+This is only demo app. In many cases assigned values ​​are for demonstration purposes only. The app is considered as a personal application. It demonstrates data manipulation, CRUD operations, file uploading to external server.
 
 The development of the application is inspired by examples of solutions
 of Daniel Opitz ([Odan](https://odan.github.io/about.html)) and [Samuel Gfeller](https://samuel-gfeller.ch/docs). 
