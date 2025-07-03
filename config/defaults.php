@@ -55,4 +55,19 @@ $settings['twig'] = [
     ],
 ];
 
+// URL
+$settings['url'] = [
+    // Redirect url in Admin Auth Service    
+    'adminFotos' => '../admin/fotos',
+    // Admin auth file path. 
+    'adminAuthFile' => "../private/admin_data.json",
+];
+
+// JWT
+$settings['jwt'] = [
+    'issuer' => 'local.dev',
+    'audience' => 'local.dev',
+    'cookie_name' => 'fotoapp',    
+];
+
 return $settings;
