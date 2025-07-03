@@ -9,5 +9,9 @@ return function (App $app) {
     $app->group('/admin', function (RouteCollectorProxy $group) {
         $group->get('/signin', \App\Action\Admin\AdminSignInPageAction::class)
             ->setName('admin-signin-page');
+        $group->post('/auth', \App\Action\Admin\AdminAuthAction::class);
+        $group->group('/fotos', function (RouteCollectorProxy $group) {
+            $group->get('', \App\Action\Admin\FotoReadAction::class);
+        });
     });
 };
