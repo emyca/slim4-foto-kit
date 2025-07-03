@@ -14,4 +14,7 @@ return function (App $app) {
             $group->get('', \App\Action\Admin\FotoReadAction::class);
         });
     });
+
+    // ---- User ----
+    $app->get('/', \App\Action\User\FotoAction::class);
 };
