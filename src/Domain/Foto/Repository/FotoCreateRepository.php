@@ -24,7 +24,7 @@ final class FotoCreateRepository
     {      
         $table = $this->config->getString('db.table.fotos');
         $sql = "INSERT INTO $table 
-                SET img=:image,
+                SET img=:img,
                     name=:name,
                     description=:description";
         $stmt = $this->pdo->prepare($sql);

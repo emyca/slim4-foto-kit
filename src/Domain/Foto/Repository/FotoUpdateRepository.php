@@ -31,13 +31,13 @@ final class FotoUpdateRepository
     }
 
     public function updateById(array $dbArray)
-    {       
+    {
         $table = $this->config->getString('db.table.fotos');
-        // Checks if 'image' key exists in the array 
+        // Checks if 'img' key exists in the array 
         // to map to sql statement properly
-        if (array_key_exists('image', $dbArray)) {
+        if (array_key_exists('img', $dbArray)) {
             $sql = "UPDATE $table 
-                    SET img=:image,
+                    SET img=:img,
                         name=:name,
                         description=:description 
                     WHERE id=:id";
