@@ -47,27 +47,32 @@
 <div id="modal-update" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <h2 class="uk-modal-title uk-text-warning">Updating</h2>
-        <p><span id="id_update" style='display:none'></span></p>
-        <form id="form_update" method='post'>
-            <div class="uk-margin">
-                <label class="uk-form-label" for="name_update">Name</label>
-                <input id='name_update' name='name_update' class="uk-input" 
-                    type="text" placeholder="Name...">
+        <p class="uk-text-small"><span uk-icon="warning"></span>&nbsp;
+            It is possible to update without replacing, on the server,
+            an existing image file. If a new image file is added, if necessary,
+            the old image file will be deleted from the server.
+        </p>
+        <p>* - Required fields <span id="id_update" style='display:none'></span></p>
+        <form id="form_update" method='post' enctype='multipart/form-data'>
+            <div class="uk-margin" uk-margin>
+                <label class="uk-form-label" for="file_update">New image file (only JPEG/JPG, PNG).</label><br>
+                <div uk-form-custom="target: true">
+                    <input id='file_update' name='file_update' type="file">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Add file..." disabled>
+                </div>
             </div>
             <div class="uk-margin">
-                <label class="uk-form-label" for="description_update">Description</label>
-                <textarea id='description_update' name='description_update' 
-                    class="uk-textarea" rows="3" style='resize:none;' 
-                        placeholder="Description..."></textarea>
+                <label class="uk-form-label" for="name_update">* Name</label>
+                <input id='name_update' name='name_update' class="uk-input" type="text" placeholder="Name...">
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="description_update">* Description</label>
+                <textarea id='description_update' name='description_update' class="uk-textarea" rows="3" style='resize:none;' placeholder="Description..."></textarea>
             </div>
         </form>
         <p class="uk-text-right">
-            <button id='modal_update_btn_close' 
-                class="uk-button uk-button-default uk-modal-close" 
-                type="button">Close</button>
-            <button id='modal_update_btn_update' 
-                class="uk-button uk-button-primary" 
-                type="button">Update</button>
+            <button id='modal_update_btn_close' class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+            <button id='modal_update_btn_update' class="uk-button uk-button-primary" type="button">Update</button>
         </p>
         <p id='modal_update_spinner' style='display:none' uk-spinner></p>
         <p id='modal_update_response' class="uk-margin-top"></p>
