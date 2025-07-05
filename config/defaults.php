@@ -57,6 +57,11 @@ $settings['twig'] = [
 
 // URL
 $settings['url'] = [
+    'uploadsDir' => __DIR__ . '/../public/uploads',
+    'uploadsUrl' => '../public/uploads/',
+    'uploadsSubUrl' => './uploads/',
+    // Redirect url in Admin Authorization Middleware
+    'adminSignIn' => './signin',
     // Redirect url in Admin Auth Service    
     'adminFotos' => '../admin/fotos',
     // Admin auth file path. 
