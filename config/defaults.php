@@ -58,12 +58,15 @@ $settings['twig'] = [
 // URL
 $settings['url'] = [
     'uploadsDir' => __DIR__ . '/../public/uploads',
-    'uploadsUrl' => '../public/uploads/',
+    // It's better works through absolute url (set yours).
+    'uploadsUrl' => 'http://localhost/_SlimPHP/slim4-foto-kit/public/uploads/',
     'uploadsSubUrl' => './uploads/',
-    // Redirect url in Admin Authorization Middleware
-    'adminSignIn' => './signin',
-    // Redirect url in Admin Auth Service    
-    'adminFotos' => '../admin/fotos',
+    // Redirect url in Admin Authorization Middleware. 
+    // It's better works through absolute url (set yours).
+    'adminSignIn' => 'http://localhost/_SlimPHP/slim4-foto-kit/admin/signin',
+    // Redirect url in Admin Auth Service.
+    // It's better works through absolute url (set yours).    
+    'adminFotos' => 'http://localhost/_SlimPHP/slim4-foto-kit/admin/fotos',
     // Admin auth file path. 
     'adminAuthFile' => "../private/admin_data.json",
 ];
