@@ -4,14 +4,13 @@
 <!-- Items block-->
 <div class="uk-container uk-container-xlarge uk-margin-top">      
     {% if items %}
-    <ul id="items" class="uk-thumbnav uk-child-width-1-2@m uk-flex-center" 
-        uk-lightbox="animation: fade">
+    <ul id="items" class="uk-thumbnav uk-child-width-1-4@m uk-flex-center" uk-lightbox="animation: fade">
         {% for item in items %}
         <li class='uk-card uk-card-default uk-card-body uk-active uk-text-center uk-margin-small-left uk-margin-small-right uk-margin-bottom uk-padding uk-background-default'>
             <span name='item_id' class="uk-invisible">{{ item.id }}</span>
             <a name='item_delete_btn' href="#modal-delete" class="uk-icon-link uk-margin-small-right" uk-icon="trash" uk-toggle></a>
             <a name='item_update_btn' href="#modal-update" class="uk-icon-link" uk-icon="file-edit" uk-toggle></a>
-            <a href='{{ item.image }}'><img src='{{ item.image }}' alt='item_img'></a><br>
+            <a  href='{{ item.image }}' class="uk-margin-top"><img src='{{ item.image }}' alt='item_img'></a><br>
             <span name='item_name' class="uk-text-bolder" style="font-size: 16px">{{ item.name }}</span><br>
             <span name='item_description'>{{ item.description }}</span><br>  
         </li>
