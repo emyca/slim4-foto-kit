@@ -1,7 +1,5 @@
 # Slim4 Foto Kit
 
-UNDER DEVELOPMENT
-
 This is only demo app. In many cases assigned values ​​are for demonstration purposes only. The app is considered as a personal application. It demonstrates data manipulation, CRUD operations, file uploading to external server.
 
 The development of the application is inspired by examples of solutions
@@ -46,3 +44,19 @@ hash_hmac('sha256', 'Lorem ipsum dolor sit amet', 'onetwothree');
 ```
 
 They are only for demo purposes and must be changed for use in real production app.
+
+### Manual testing
+
+For local manual testing can be used, for example XAMPP.
+
+This demo app has two user types, namely - user, and admin.
+
+For user type, in web browser, start 
+```text
+http://localhost/<optional_url_part>/slim4-foto-kit/
+```
+For admin type, in web browser, start
+```text
+http://localhost/<optional_url_part>/slim4-foto-kit/admin/signin
+```
+After that, you can manually test the app functionality.
