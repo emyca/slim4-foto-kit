@@ -17,6 +17,7 @@ return function (App $app) {
             $group->post('/{id}', \App\Action\Admin\FotoUpdateAction::class);
             $group->delete('/{id}', \App\Action\Admin\FotoDeleteAction::class);
         })->add(AdminJwtAuthorizationMiddleware::class);
+        $group->get('/logout', \App\Action\Admin\AdminLogOutAction::class);
     });
 
     // ---- User ----
