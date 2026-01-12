@@ -1,39 +1,55 @@
-$(function() {
+document.getElementById('admin_signin_form_auth_btn').addEventListener('click', function(e) {
+    e.preventDefault();
 
-	$('#admin_signin_form_auth_btn').click(function(e) {
-		e.preventDefault();
-		$('#admin_signin_form_spinner').show();
-		$("#admin_signin_form_auth_btn").prop("disabled", true);
-		$('#admin_signin_form_response').html('');
+    const adminSigninFormSpinner = document.getElementById('admin_signin_form_spinner');
+    const adminSigninFormAuthBtn = document.getElementById("admin_signin_form_auth_btn");
+    const adminSigninFormResponse = document.getElementById('admin_signin_form_response');
 
-		let formData = new FormData();
-		formData.append('adminLogin', $('input[id=admin_signin_form_login]').val());
-		formData.append('adminPass', $('input[id=admin_signin_form_pswd]').val());
+    adminSigninFormSpinner.style.display = "block";
+    adminSigninFormAuthBtn.disabled = true;
+    adminSigninFormResponse.innerHTML = '';
 
-		$.ajax({
-			type: 'POST',
-			url: '../admin/auth',            
-			dataType:'json',
-			contentType: false,
-			processData: false,
-			data: formData,
-        })
-        .done(function(response) {
-            $('#admin_signin_form_spinner').hide();
-            $('#admin_signin_form_auth_btn').prop("disabled", false);
-            if(response.success == false) {                
-                $('#admin_signin_form_response')
-                .css('color', '#f02d1f')
-                .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                    + response.message);                
-            } else {
-                window.location.replace(response.message);               
-            }
-        })
-        .fail (function(e) { 
-            $('#admin_signin_form_spinner').hide();
-            $('#admin_signin_form_response').html(e.responseText);
-            $('#admin_signin_form_auth_btn').prop("disabled", false);
-        });	
-	});	
-});
+    const url = "../admin/auth";
+
+    const adminData = {
+        adminLogin: document.querySelector('input[id=admin_signin_form_login]').value,
+        adminPass: document.querySelector('input[id=admin_signin_form_pswd]').value
+     }
+
+    fetch(url, {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(adminData)
+     })
+     .then(response => {
+        if (!response.ok) {
+            adminSigninFormSpinner.style.display = "none";
+            adminSigninFormAuthBtn.disabled = false;
+            throw new Error(`HTTP Error: ${response.status}, ${response.statusText}!`);
+        }
+        return response.json();
+     })
+     .then(data => {
+        adminSigninFormSpinner.style.display = "none";        
+        if(data.success == false) {
+            adminSigninFormResponse.style.color = "#f02d1f";
+            adminSigninFormResponse.innerHTML = data.message;
+        } else {
+            window.location.replace(data.message);
+        }
+        adminSigninFormAuthBtn.disabled = false;
+     })
+     .catch(error => {
+        adminSigninFormSpinner.style.display = "none";
+        adminSigninFormAuthBtn.disabled = false;
+        adminSigninFormResponse.style.color = "#f02d1f";
+        if (error.message === 'Failed to fetch') {
+            adminSigninFormResponse.innerHTML = "Network Error!";
+        } else {
+            adminSigninFormResponse.innerHTML = error.message;
+        }
+        throw error;
+     });
+
+})
