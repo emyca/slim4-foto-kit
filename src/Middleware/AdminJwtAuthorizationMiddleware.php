@@ -34,16 +34,16 @@ final class AdminJwtAuthorizationMiddleware implements MiddlewareInterface
         if(!isset($_COOKIE[$cookieName])) {
             // Create a new response using the response factory
             $response = $this->responseFactory->createResponse();
-            // Checks if the request is AJAX-request 
-            if ($request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest') {
-                // JSON response to AJAX-request (create/update/delete resourse)               
+            // Checks if the request has header 'Accept' 
+            if ($request->hasHeader('Accept')) {
+                // JSON response to Fetch API request (create/update/delete resourse)
                 return $this->renderer->json(
                     $response, 
                     array(
                         'status' => 401, 
                         'success' => false,
                         'message' => 'Unauthorized!',
-                        // Because of AJAX, redirect url sent in JSON response
+                        // Because of Fetch API, redirect url sent in JSON response
                         'url' => $this->config->getString('url.adminSignIn')
                     )
                 );
