@@ -1,59 +1,72 @@
-$(function() {
+document.addEventListener("DOMContentLoaded", function()  {
 
-    $('#modal_add_btn_add').click(function(e) {
+    document.getElementById("modal_add_btn_add").addEventListener("click", function(e) {
         e.preventDefault();
-        $("#modal_add_btn_add").prop("disabled", true);
-        $('#modal_add_spinner').show();
+
+        const modalAddBtnAdd = document.getElementById("modal_add_btn_add");
+        const modalAddSpinner = document.getElementById("modal_add_spinner");
+        const modalAddResponse = document.getElementById("modal_add_response");
+
+        modalAddBtnAdd.disabled = true;
+        modalAddSpinner.style.display = "block";    
+        modalAddResponse.innerHTML = '';
 
         let formData = new FormData();
-        formData.append('file', $('input[name=file_add]')[0].files[0]);
-        formData.append('name', $('input[name=name_add]').val());
-        formData.append('description', $('textarea[name=description_add]').val());
+        // formData.append('file', document.querySelector("input[name=file_add]").files[0]);
+        formData.append('file', document.getElementById("file_add").files[0]);
+        formData.append('name', document.querySelector("input[name=name_add]").value);
+        formData.append('description', document.querySelector("textarea[name=description_add]").value);
 
-        $.ajax({
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            url: './fotos',
-			dataType: 'json',
-			contentType: false,
-			processData: false,            
-			data: formData
+        const url = "./fotos";
+
+        fetch(url, {
+            method: 'POST',
+            headers: {'Accept': 'application/json'},
+            body: formData
         })
-        .done(function(response) {
-            $('#modal_add_spinner').hide();
-            $('#modal_add_btn_add').prop("disabled", false);
-            if(response.status == 401) {
-                $('#modal_add_response')
-                .css('color', '#f02d1f')
-                .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                    + response.message);
+        .then(response => {
+            if (!response.ok) {
+                modalAddSpinner.style.display = "none";
+                modalAddBtnAdd.disabled = false;
+                throw new Error(`HTTP Error: ${response.status}, ${response.statusText}!`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            modalAddSpinner.style.display = "none";
+            modalAddBtnAdd.disabled = false;
+            if(data.status == 401) {
+                modalAddResponse.style.color = "#f02d1f";
+                modalAddResponse.innerHTML = data.message;    
                 setTimeout(function() {
-                    window.location.replace(response.url);
+                    window.location.replace(data.url);
                 }, 1000);
             } else {
-                if(response.success == false) {
-                    $('#modal_add_response')
-                        .css('color', '#f02d1f')
-                        .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                            + response.message);
+                if(data.success == false) {
+                    modalAddResponse.style.color = "#f02d1f";
+                    modalAddResponse.innerHTML = data.message;
                 } else {
-                    $('#modal_add_response')
-                        .css('color', '#22a131')
-                        .html("<span class='uk-margin-small-right' uk-icon='icon: check'></span>" 
-                            + response.message);
+                    modalAddResponse.style.color = "#22a131";
+                    modalAddResponse.innerHTML = data.message;
                 }
             }
         })
-        .fail (function(e) { 
-            $('#modal_add_spinner').hide();
-            $('#modal_add_response').html(e.responseText);
-            $('#modal_add_btn_add').prop("disabled", false);
+        .catch(error => {
+            modalAddSpinner.style.display = "none";
+            modalAddBtnAdd.disabled = false;
+            modalAddResponse.style.color = "#f02d1f";
+            if (error.message === 'Failed to fetch') {
+                modalAddResponse.innerHTML = "Network Error!";
+            } else {
+                modalAddResponse.innerHTML = error.message;
+            }
+            throw error;
         });
     });
 
-    $('#modal_add_btn_close').click(function() {
-        $('#form_add')[0].reset();
-        $('#modal_add_response').html('');
+    document.getElementById("modal_add_btn_close").addEventListener("click", function() {
+        document.getElementById("form_add").reset();
+        document.getElementById("modal_add_response").value = "";
         location.reload();
     });
 });
