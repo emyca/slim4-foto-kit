@@ -1,60 +1,82 @@
 $(function() {
 
-    $('a[name="item_delete_btn"]').click(function(e) {
-        e.preventDefault();
+    $('a[name="item_delete_btn"]').click(function() {
         let itemDeleteId = $(this).siblings('span[name="item_id"]').html();
         let itemDeleteName = $(this).siblings('span[name="item_name"]').html();
         $('#id_delete').html(itemDeleteId);
         $('#name_delete').html(itemDeleteName);
     });
 
-    $('#modal_delete_btn_delete').click(function(e) {
+    const modalDeleteBtnDelete = $("#modal_delete_btn_delete");
+    const modalDeleteBtnCancel = $("#modal_delete_btn_cancel");
+    const modalDeleteSpinner = $('#modal_delete_spinner');
+    const modalDeleteResponse = $('#modal_delete_response');
+
+    modalDeleteBtnDelete.click(function(e) {
         e.preventDefault();
-        $("#modal_delete_btn_cancel").prop("disabled", true);
-        $("#modal_delete_btn_delete").prop("disabled", true);
-        $('#modal_delete_spinner').show();
+
+        modalDeleteBtnCancel.prop("disabled", true);
+        modalDeleteBtnDelete.prop("disabled", true);
+        modalDeleteSpinner.show();
 
         let deleteId = $('#id_delete').html();
-        console.log(deleteId);
 
-        $.ajax({
-            type: 'DELETE',
-			dataType: 'json',
-			contentType: false,
-			processData: false,
-            url: './fotos/' + deleteId
+        fetch('./fotos/' + deleteId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
         })
-        .done(function(response) {
-            $('#modal_delete_spinner').hide();
-            if(response.status == 401) {
-                $('#modal_delete_response')
-                .css('color', '#f02d1f')
-                .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                    + response.message);
+        .then(response => {
+            if (!response.ok) {
+                modalDeleteSpinner.hide();
+                modalDeleteBtnCancel.prop("disabled", false);
+                modalDeleteBtnDelete.prop("disabled", false);
+                throw new Error(`HTTP Error: ${response.status}, 
+                    ${response.statusText}!`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            modalDeleteSpinner.hide();
+            modalDeleteBtnDelete.prop("disabled", false);
+            if(data.status == 401) {
+                modalDeleteResponse.css('color', '#f02d1f')
+                    .html(data.message);
                 setTimeout(function() {
-                    window.location.replace(response.url);
+                    window.location.replace(data.url);
                 }, 1000);
             } else {
-                UIkit.modal('#modal-delete').hide();
-                let notification = "";
-                if(response.success == false) {
-                    notification = "<span style='color: #f02d1f;'>"
-                        + "<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                        + response.message +"</span>";
+                if(data.success == false) {                 
+                    modalDeleteResponse.css('color', '#f02d1f')
+                        .html(data.message);
                 } else {
-                    notification = "<span style='color: #22a131;'>" 
-                        + "<span class='uk-margin-small-right' uk-icon='icon: check'></span>" 
-                        + response.message +"</span>";   
+                    modalDeleteResponse.css('color', '#22a131')
+                        .html(data.message);                    
                 }
-                UIkit.notification(notification);
-                setTimeout(function(){location.reload()}, 2000);
-            }   
+                modalDeleteBtnCancel.prop("disabled", true);
+                modalDeleteBtnDelete.prop("disabled", true);
+                setTimeout(function(){location.reload()}, 1000);
+            }
         })
-        .fail (function(e) { 
-            $('#modal_delete_spinner').hide();
-            $("#modal_delete_btn_cancel").prop("disabled", false);
-            $("#modal_delete_btn_delete").prop("disabled", false);
-            $("#modal_delete_response").html(e.responseText);
+        .catch(error => {
+            modalDeleteSpinner.hide();
+            modalDeleteBtnCancel.prop("disabled", false);
+            modalDeleteBtnDelete.prop("disabled", false);
+            if (error.message === 'Failed to fetch') {
+                modalDeleteResponse.css('color', '#f02d1f')
+                    .html("Network Error!")                
+            } else {
+                modalDeleteResponse.css('color', '#f02d1f')
+                    .html(error.message)
+            }
         });
+    });
+
+    modalDeleteBtnCancel.click(function(e) {
+        e.preventDefault();
+        modalDeleteResponse.html('');
+        location.reload();
     });
 });
