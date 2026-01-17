@@ -10,10 +10,17 @@ $(function() {
         $('#description_update').val(itemUpdateDescription);
     });
 
-    $('#modal_update_btn_update').click(function(e) {
+    const modalUpdateBtnUpdate = $('#modal_update_btn_update');
+    const modalUpdateSpinner = $('#modal_update_spinner');
+    const modalUpdateResponse = $('#modal_update_response');
+    const modalUpdateBtnClose = $('#modal_update_btn_close');
+    const errorColor = '#f02d1f';
+    const successColor = '#22a131';
+
+    modalUpdateBtnUpdate.click(function(e) {
         e.preventDefault();
-        $("#modal_update_btn_update").prop("disabled", true);
-        $('#modal_update_spinner').show();
+        modalUpdateBtnUpdate.prop("disabled", true);
+        modalUpdateSpinner.show();
 
         let updateId = $('span[id=id_update]').html();
 
@@ -22,50 +29,55 @@ $(function() {
         formData.append('name', $('input[name=name_update]').val());
         formData.append('description', $('textarea[name=description_update]').val());
 
-        $.ajax({
+        fetch('./fotos/' + updateId, {
             method: 'POST',
-            enctype: 'multipart/form-data',
-            url: './fotos/' + updateId,
-			dataType: 'json',
-			contentType: false,
-			processData: false,
-			data: formData
+            headers: {'Accept': 'application/json'},
+            body: formData
         })
-        .done(function(response) {
-            $('#modal_update_spinner').hide();
-            $("#modal_update_btn_update").prop("disabled", false);
-            if(response.status == 401) {
-                $('#modal_update_response')
-                .css('color', '#f02d1f')
-                .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                    + response.message);
+        .then(response => {
+            if (!response.ok) {
+                modalUpdateSpinner.hide();
+                modalUpdateBtnUpdate.prop("disabled", false);
+                throw new Error(`HTTP Error: ${response.status}, 
+                    ${response.statusText}!`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            modalUpdateSpinner.hide();
+            modalUpdateBtnUpdate.prop("disabled", false);
+            if(data.status == 401) {
+                modalUpdateResponse.css('color', errorColor)
+                    .html(data.message);
                 setTimeout(function() {
-                    window.location.replace(response.url);
+                    window.location.replace(data.url);
                 }, 1000);
             } else {
-                if(response.success == false) {
-                    $('#modal_update_response')
-                        .css('color', '#f02d1f')
-                        .html("<span class='uk-margin-small-right' uk-icon='icon: warning'></span>" 
-                            + response.message);
+                if(data.success == false) {
+                    modalUpdateResponse.css('color', errorColor)
+                        .html(data.message);
                 } else {
-                    $('#modal_update_response')
-                        .css('color', '#22a131')
-                        .html("<span class='uk-margin-small-right' uk-icon='icon: check'></span>" 
-                            + response.message);
+                    modalUpdateResponse.css('color', successColor)
+                        .html(data.message);
                 }
             }
         })
-        .fail (function(e) { 
-            $('#modal_update_spinner').hide();
-            $("#modal_update_response").html(e.responseText);
-            $("#modal_update_btn_update").prop("disabled", false);
+        .catch(error => {
+            modalUpdateSpinner.hide();
+            modalUpdateBtnUpdate.prop("disabled", false);
+            modalUpdateResponse.css('color', errorColor);
+            if (error.message === 'Failed to fetch') {
+                modalUpdateResponse.html("Network Error!");
+            } else {
+                modalUpdateResponse.html(error.message);
+            }
         });
+        
     });
 
-    $('#modal_update_btn_close').click(function() {
+    modalUpdateBtnClose.click(function() {
         $('#form_update')[0].reset();
-        $('#modal_update_response').html('');
+        modalUpdateResponse.html('');
         location.reload();
     });
 });
