@@ -35,18 +35,18 @@ $(function() {
             modalAddSpinner.hide();
             modalAddBtnAdd.prop("disabled", false);
             if(data.status == 401) {
-                modalAddResponse.css('color', errorColor);
-                modalAddResponse.html(data.message);
+                modalAddResponse.css('color', errorColor)
+                    .html(data.message);
                 setTimeout(function() {
                     window.location.replace(data.url);
                 }, 1000);
             } else {
                 if(data.success == false) {
-                    modalAddResponse.css('color', errorColor);
-                    modalAddResponse.html(data.message);
+                    modalAddResponse.css('color', errorColor)
+                        .html(data.message);
                 } else {
-                    modalAddResponse.css('color', successColor);
-                    modalAddResponse.html(data.message);
+                    modalAddResponse.css('color', successColor)
+                        .html(data.message);
                 }
             }
         })
