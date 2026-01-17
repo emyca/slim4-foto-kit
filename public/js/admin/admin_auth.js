@@ -3,6 +3,7 @@ $(function() {
     const adminSigninFormAuthBtn = $('#admin_signin_form_auth_btn');
     const adminSigninFormSpinner = $('#admin_signin_form_spinner');
     const adminSigninFormResponse = $('#admin_signin_form_response');
+    const errorColor = '#f02d1f';
 
 	adminSigninFormAuthBtn.click(function(e) {
 		e.preventDefault();
@@ -33,7 +34,7 @@ $(function() {
         .then(data => {
             adminSigninFormSpinner.hide();
             if(data.success == false) {
-                adminSigninFormResponse.css('color', '#f02d1f')
+                adminSigninFormResponse.css('color', errorColor)
                     .html(data.message);
             } else {
                 window.location.replace(data.message);
@@ -44,10 +45,10 @@ $(function() {
             adminSigninFormSpinner.hide();
             adminSigninFormAuthBtn.prop("disabled", false);
             if (error.message === 'Failed to fetch') {
-                adminSigninFormResponse.css('color', '#f02d1f')
+                adminSigninFormResponse.css('color', errorColor)
                     .html("Network Error!")                
             } else {
-                adminSigninFormResponse.css('color', '#f02d1f')
+                adminSigninFormResponse.css('color', errorColor)
                     .html(error.message)
             }       
         });

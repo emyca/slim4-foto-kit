@@ -11,6 +11,8 @@ $(function() {
     const modalDeleteBtnCancel = $("#modal_delete_btn_cancel");
     const modalDeleteSpinner = $('#modal_delete_spinner');
     const modalDeleteResponse = $('#modal_delete_response');
+    const errorColor = '#f02d1f';
+    const successColor = '#22a131';
 
     modalDeleteBtnDelete.click(function(e) {
         e.preventDefault();
@@ -42,17 +44,17 @@ $(function() {
             modalDeleteSpinner.hide();
             modalDeleteBtnDelete.prop("disabled", false);
             if(data.status == 401) {
-                modalDeleteResponse.css('color', '#f02d1f')
+                modalDeleteResponse.css('color', errorColor)
                     .html(data.message);
                 setTimeout(function() {
                     window.location.replace(data.url);
                 }, 1000);
             } else {
                 if(data.success == false) {                 
-                    modalDeleteResponse.css('color', '#f02d1f')
+                    modalDeleteResponse.css('color', errorColor)
                         .html(data.message);
                 } else {
-                    modalDeleteResponse.css('color', '#22a131')
+                    modalDeleteResponse.css('color', successColor)
                         .html(data.message);                    
                 }
                 modalDeleteBtnCancel.prop("disabled", true);
@@ -65,10 +67,10 @@ $(function() {
             modalDeleteBtnCancel.prop("disabled", false);
             modalDeleteBtnDelete.prop("disabled", false);
             if (error.message === 'Failed to fetch') {
-                modalDeleteResponse.css('color', '#f02d1f')
+                modalDeleteResponse.css('color', errorColor)
                     .html("Network Error!")                
             } else {
-                modalDeleteResponse.css('color', '#f02d1f')
+                modalDeleteResponse.css('color', errorColor)
                     .html(error.message)
             }
         });
