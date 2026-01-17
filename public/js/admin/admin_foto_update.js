@@ -71,8 +71,7 @@ $(function() {
             } else {
                 modalUpdateResponse.html(error.message);
             }
-        });
-        
+        });    
     });
 
     modalUpdateBtnClose.click(function() {
