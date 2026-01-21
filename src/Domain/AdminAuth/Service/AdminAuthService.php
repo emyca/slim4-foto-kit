@@ -82,7 +82,7 @@ final class AdminAuthService
             $cookieName = $this->config->getString('jwt.cookie_name');
             setcookie($cookieName, $jwtGenerated, $cookieOptions);
             
-            // Because of AJAX, redirect url should be sent in JSON response
+            // Because of Fetch API, redirect url should be sent in JSON response
             $redirectUrl = $this->config->getString('url.adminFotos');
             
             return (
