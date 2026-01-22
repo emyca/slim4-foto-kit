@@ -34,8 +34,8 @@ final class AdminJwtAuthorizationMiddleware implements MiddlewareInterface
         if(!isset($_COOKIE[$cookieName])) {
             // Create a new response using the response factory
             $response = $this->responseFactory->createResponse();
-            // Checks if the request has header 'Accept' 
-            if ($request->hasHeader('Accept')) {
+            // Checks if the request has custom header 'X-Data-Request'
+            if ($request->hasHeader('X-Data-Request')) {
                 // JSON response to Fetch API request (create/update/delete resourse)
                 return $this->renderer->json(
                     $response, 
