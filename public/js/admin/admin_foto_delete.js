@@ -27,7 +27,9 @@ $(function() {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                // Custom header for JSON response to Fetch API request
+                'X-Data-Request': 'data-manipulate'
             }
         })
         .then(response => {

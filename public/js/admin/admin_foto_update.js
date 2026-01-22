@@ -31,7 +31,11 @@ $(function() {
 
         fetch('./fotos/' + updateId, {
             method: 'POST',
-            headers: {'Accept': 'application/json'},
+            headers: {
+                'Accept': 'application/json',
+                // Custom header for JSON response to Fetch API request
+                'X-Data-Request': 'data-manipulate'
+            },
             body: formData
         })
         .then(response => {
